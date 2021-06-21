@@ -1,6 +1,7 @@
 ﻿using CSCollections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CSCollections2
 {
@@ -11,8 +12,129 @@ namespace CSCollections2
             //SortedList();
             //ArrayMultidimensional();
             //JaggedArrays();
-
+            //LINQ();
+            OperacaoConjuntosLINQ();
             Console.ReadLine();
+        }
+
+        private static void OperacaoConjuntosLINQ()
+        {
+            string[] seq1 = { "janeiro", "fevereiro", "marco"};
+            string[] seq2 = { "fevereiro", "MARCO", "abril" };
+
+            Console.WriteLine("Concatenando");
+            IEnumerable<string> consulta = seq1.Concat(seq2);
+            foreach (var item in consulta)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Uniao de 2 seq");
+            IEnumerable<string> consulta2 = seq1.Union(seq2);
+            foreach (var item in consulta2)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Uniao com comparador");
+            IEnumerable<string> consulta3 = seq1.Union(seq2, StringComparer.InvariantCultureIgnoreCase);
+            foreach (var item in consulta3)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Intersecão");
+            IEnumerable<string> consulta4 = seq1.Intersect(seq2,StringComparer.InvariantCultureIgnoreCase);
+            foreach (var item in consulta4)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Exceção: elementos da seq1 que nao estao na seq2");
+            IEnumerable<string> consulta5 = seq1.Except(seq2);
+            foreach (var item in consulta5)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+        }
+
+        private static void LINQ()
+        {
+            List<Mes> meses = new List<Mes>()
+            {
+                new Mes("Janeiro", 31),
+                new Mes("Fevereiro", 28),
+                new Mes("Marco", 31),
+                new Mes("Abril", 30),
+                new Mes("Maio", 31),
+                new Mes("Junho", 30),
+                new Mes("Julho", 31),
+                new Mes("Agosto", 31),
+                new Mes("Setembro", 30),
+                new Mes("Outubro", 31),
+                new Mes("Novembro", 30),
+                new Mes("Dezembro", 31)
+            };
+
+            //meses.Sort();
+            //foreach (var mes in meses)
+            //{
+            //        if (mes.Dias == 31)
+            //        {
+            //                Console.WriteLine(mes.Nome.ToUpper());
+            //        }
+
+            //Montagem da consulta
+            IEnumerable<string> consulta = meses
+                                            .Where(n => n.QtdDias == 31)
+                                            .OrderBy(n => n.Nome)
+                                            .Select(n=>n.Nome.ToUpper());
+
+            foreach (var item in consulta)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            IEnumerable<Mes> consulta2 = meses.Take(3);
+            foreach (var item in consulta2)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            IEnumerable<Mes> consulta3 = meses.Skip(3);
+            foreach (var item in consulta3)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            IEnumerable<Mes> consulta4 = meses.Skip(6).Take(3);
+            foreach (var item in consulta4)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            IEnumerable<Mes> consulta5 = meses.TakeWhile(n => !n.Nome.StartsWith("S"));
+            foreach (var item in consulta5)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            IEnumerable<Mes> consulta6 = meses.SkipWhile(n => !n.Nome.StartsWith("S"));
+            foreach (var item in consulta6)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
         }
 
         private static void JaggedArrays()
