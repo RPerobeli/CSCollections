@@ -18,9 +18,38 @@ namespace CSCollections
             //LinkedList();
             //Pilhas();
             //Filas();
+            TesteImprimir();
 
 
             Console.ReadLine();
+        }
+
+        private static void TesteImprimir()
+        {
+            var aulaIntro = new Aula("Introdução às Coleções", 16);
+            var aulaModelando = new Aula("Modelando a Classe Aula", 45);
+            var aulaSets = new Aula("Trabalhando com Conjuntos", 29);
+
+            List<Aula> aulas = new List<Aula>()
+            {
+                aulaIntro,
+                aulaModelando,
+                aulaSets
+            };
+
+            Aluno a1 = new Aluno("joao", 1234);
+            Aluno a2 = new Aluno("jose", 5678);
+            Aluno a3 = new Aluno("joaquim", 9012);
+
+            List<Aluno> alunos = new List<Aluno>()
+            {
+                a1,a2,a3
+            };
+
+            Imprimir(aulaIntro, x => x.Titulo);
+            ImprimirList(aulas, x => x.Titulo);
+            ImprimirList(alunos);
+            Console.WriteLine("------------------------------------------");
         }
 
         private static void Filas()
@@ -327,17 +356,28 @@ namespace CSCollections
                 Console.WriteLine(aula);
             }
         }
-        private static void ImprimirList<T>(IList<T> aulas)
+        private static void ImprimirList<T>(IList<T> items)
         {
-            foreach (var aula in aulas)
+            foreach (var item in items)
             {
-                Console.WriteLine(aula);
+                Console.WriteLine(item);
             }
             //aulas.ForEach(aula =>
             //{
             //    Console.WriteLine(aula);
             //});
 
+        }
+        private static void ImprimirList<TSource, T>(IEnumerable<TSource> items, Func<TSource, T> predicate)
+        {
+            foreach (var item in items)
+            {
+                Console.WriteLine(predicate(item));
+            }
+        }
+        private static void Imprimir<TSource, T>(TSource classe, Func<TSource, T> predicate)
+        {
+            Console.WriteLine(predicate(classe));
         }
     }
 }
